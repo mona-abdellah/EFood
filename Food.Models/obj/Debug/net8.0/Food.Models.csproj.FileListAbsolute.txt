@@ -1,0 +1,15 @@
+C:\Users\monaa\source\repos\Food\Food.Models\bin\Debug\net8.0\Food.Models.deps.json
+C:\Users\monaa\source\repos\Food\Food.Models\bin\Debug\net8.0\Food.Models.runtimeconfig.json
+C:\Users\monaa\source\repos\Food\Food.Models\bin\Debug\net8.0\Food.Models.dll
+C:\Users\monaa\source\repos\Food\Food.Models\bin\Debug\net8.0\Food.Models.pdb
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.csproj.AssemblyReference.cache
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.AssemblyInfoInputs.cache
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.AssemblyInfo.cs
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.csproj.CoreCompileInputs.cache
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.sourcelink.json
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.dll
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\refint\Food.Models.dll
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.pdb
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\Food.Models.genruntimeconfig.cache
+C:\Users\monaa\source\repos\Food\Food.Models\obj\Debug\net8.0\ref\Food.Models.dll
