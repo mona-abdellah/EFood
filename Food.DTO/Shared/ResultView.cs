@@ -9,7 +9,7 @@ namespace Food.DTO.Shared
     public class ResultView<T>
     {
         public T? Entity { get; set; }
-        public bool? ISSuccess { get; set; }
-        public string? Message {  get; set; }
+        public bool ISSuccess { get; set; }
+        public string Message {  get; set; }
     }
 }

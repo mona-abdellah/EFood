@@ -1,0 +1,13 @@
+C:\Users\monaa\source\repos\Food\Food.DTO\bin\Debug\net8.0\Food.DTO.deps.json
+C:\Users\monaa\source\repos\Food\Food.DTO\bin\Debug\net8.0\Food.DTO.dll
+C:\Users\monaa\source\repos\Food\Food.DTO\bin\Debug\net8.0\Food.DTO.pdb
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.csproj.AssemblyReference.cache
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.AssemblyInfoInputs.cache
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.AssemblyInfo.cs
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.csproj.CoreCompileInputs.cache
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.sourcelink.json
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.dll
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\refint\Food.DTO.dll
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\Food.DTO.pdb
+C:\Users\monaa\source\repos\Food\Food.DTO\obj\Debug\net8.0\ref\Food.DTO.dll

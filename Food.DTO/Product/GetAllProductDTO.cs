@@ -14,6 +14,7 @@ namespace Food.DTO.Product
         public string name { get; set; }
         public decimal price { get; set; }
         public int stock { get; set; }
-        public IFormFile Image { get; set; }
+        public string Image { get; set; }
+        public string? categoryName { get; set; }
     }
 }

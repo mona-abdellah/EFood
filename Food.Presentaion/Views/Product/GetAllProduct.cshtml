@@ -1,0 +1,30 @@
+﻿@model EntityPagenated<GetAllProductDTO>
+
+<a class="btn btn-primary" asp-action="Create">Create New One</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Image</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pro in Model.Data)
+        {
+            <tr>
+                <td>@pro.name</td>
+                <td>@pro.price</td>
+                <td>@pro.stock</td>
+                <td><img src="@pro.Image" style="width:50px; height:50px;" /></td>
+                <td>
+                    <a class="btn btn-danger" asp-action="Update" asp-route-Id="@pro.Id">Update</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@pro.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

@@ -1,0 +1,29 @@
+﻿@model CreateORupdateCategoryDTO
+
+@{
+	if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+	<h1>Create New Category</h1>
+	<form method="post" enctype="multipart/form-data">
+		<div asp-validation-summary="All">
+		</div>
+		<div class="mb-3">
+			<label asp-for="Name">category Name</label>
+			<input type="text" asp-for="Name" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="ImageData">Upload Image</label>
+			<input type="file" asp-for="ImageData" multiple accept="image/*" class="form-control" />
+			<span asp-validation-for="ImageData" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary">Create</button>
+	</form>
+}
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

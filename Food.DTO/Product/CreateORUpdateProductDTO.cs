@@ -16,6 +16,8 @@ namespace Food.DTO.Product
         [MinLength(3, ErrorMessage = "Minimum Length is 3")]
         public decimal price { get; set; }
         public int stock { get; set; }
-        public IFormFile Image { get; set; }
-    }
+		public Guid? CategoryId { get; set; }
+		public string Image { get; set; }
+        public IFormFile ImageData { get; set; }
+	}
 }

@@ -149,3 +149,10 @@ C:\Users\monaa\source\repos\Food\Food.Presentaion\obj\Debug\net8.0\refint\Food.P
 C:\Users\monaa\source\repos\Food\Food.Presentaion\obj\Debug\net8.0\Food.Presentaion.pdb
 C:\Users\monaa\source\repos\Food\Food.Presentaion\obj\Debug\net8.0\Food.Presentaion.genruntimeconfig.cache
 C:\Users\monaa\source\repos\Food\Food.Presentaion\obj\Debug\net8.0\ref\Food.Presentaion.dll
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\Food.Apllication.dll
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\Food.DTO.dll
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\Food.Infrastructure.dll
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\Food.Apllication.pdb
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\Food.DTO.pdb
+C:\Users\monaa\source\repos\Food\Food.Presentaion\bin\Debug\net8.0\Food.Infrastructure.pdb

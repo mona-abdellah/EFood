@@ -12,7 +12,7 @@ namespace Food.Apllication.Contracts
         public Task<TEntity> UpdateAsync(TEntity entity);
         public Task<TEntity> DeleteAsync(TEntity entity);
         public Task<IQueryable<TEntity>> GetAllAsync();
-        public Task<TEntity> GetOneAsync(TId id);
+        public ValueTask<TEntity> GetOneAsync(TId id);
         public Task<int> SaveChangesAsync();
 
     }

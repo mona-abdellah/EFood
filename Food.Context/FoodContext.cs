@@ -26,38 +26,38 @@ namespace Food.Context
         }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            var entities = ChangeTracker.Entries<BaseEntity<int>>();
+            var entities = ChangeTracker.Entries<BaseEntity<Guid>>();
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    entity.Entity.CreatedBy = 1;
                     entity.Entity.Create = DateTime.UtcNow;
-                }
-                else if (entity.State == EntityState.Modified)
+					entity.Entity.CreatedBy = 1;
+				}
+				else if (entity.State == EntityState.Modified)
                 {
-                    entity.Entity.Updated = DateTime.UtcNow;
-                    entity.Entity.UpdatedBy = 1;
-                }
-            }
+					entity.Entity.Updated = DateTime.UtcNow;
+					entity.Entity.UpdatedBy = 1;
+				}
+			}
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            var entities = ChangeTracker.Entries<BaseEntity<int>>();
+            var entities = ChangeTracker.Entries<BaseEntity<Guid>>();
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
                 {
-                    entity.Entity.CreatedBy = 1;
                     entity.Entity.Create = DateTime.Now;
-                }
-                else if (entity.State == EntityState.Modified)
+					entity.Entity.CreatedBy = 1;
+				}
+				else if (entity.State == EntityState.Modified)
                 {
-                    entity.Entity.Updated = DateTime.Now;
-                    entity.Entity.UpdatedBy = 1;
-                }
-            }
+					entity.Entity.Updated = DateTime.Now;
+					entity.Entity.UpdatedBy = 1;
+				}
+			}
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
