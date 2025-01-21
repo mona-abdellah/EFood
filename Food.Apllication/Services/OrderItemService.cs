@@ -102,7 +102,7 @@ namespace Food.Apllication.Services
 
         public async Task<List<GetAllOrderItemDTO>> GetAllAsync()
         {
-            var data = await orderItemRepository.GetAllAsync();
+            var data = (await orderItemRepository.GetAllAsync()).ToList();
             var TempData = mapper.Map<List<GetAllOrderItemDTO>>(data);
             return TempData;
         }

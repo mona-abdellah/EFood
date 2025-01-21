@@ -1,0 +1,34 @@
+﻿@using Food.DTO.Customer
+@model AdminDTO
+
+<form asp-action="AddAdmin" method="post" enctype="multipart/form-data">
+	<div asp-validation-summary="All"></div>
+	<div class="mb-3">
+		<label asp-for="Username">UserName</label>
+		<input type="text" asp-for="Username" />
+		<span asp-validation-for="Username"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="FName">First Name</label>
+		<input type="text" asp-for="FName" />
+		<span asp-validation-for="FName"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Lname">Last Name</label>
+		<input type="text" asp-for="Lname" />
+		<span asp-validation-for="Lname"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Email">Email</label>
+		<input type="email" asp-for="Email" />
+		<span asp-validation-for="Email"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Password">Password</label>
+		<input type="password" asp-for="Password" />
+		<span asp-validation-for="Password"></span>
+	</div>
+	<button type="submit" class="btn btn-primary">Create</button>
+</form>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

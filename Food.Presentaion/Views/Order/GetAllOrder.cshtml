@@ -1,0 +1,56 @@
+﻿@model EntityPagenated<GetAllOrderDTO>
+
+<h2>All Orders</h2>
+<table class="table table-light table-hover">
+    <thead>
+        <tr class="table-info">
+            <th scope="col">Order number</th>
+            <th scope="col">Order-Date</th>
+            <th scope="col">User Name</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Accept</th>
+            <th scope="col">Cancel</th>
+            <th scope="col">Items</th>
+            <th scope="col">Payment</th>
+            <th scope="col">Shipment</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        
+        @foreach(var item in Model.Data)
+        {
+
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.OrderDate</td>
+                <td>@item.CustomerName</td>
+                <td>@item.CustomerEmail</td>
+            @if(item.Status == 0){
+
+            <td>Pendding..</td>
+                    <td><a class="btn btn-outline-info" href="/Approve/@item.Id" role="button">Approve</a></td>
+                    <td> <a class="btn  btn-outline-danger" href="/Cancel/@item.Id" role="button">Cancelled</a></td>
+                }else if (item.Status == 1){
+            <td>Approve</td>
+                    <td><button type="button" class="btn btn-outline-primary" disabled>Disable</button></td>
+                    <td> <a class="btn btn-danger" href="/Cancel/@item.Id" role="button">Cancelled</a></td>
+            }else {
+            <td>Cancelled</td>
+
+                    <td><button type="button" class="btn btn-outline-primary" disabled>Disable</button></td>
+                    <td><button type="button" class="btn btn-outline-danger" disabled>Disable</button></td>
+            }
+
+              @*   <td><a class="btn btn-outline-info" href="/OrderItems/GetAllItems/@item.Id" role="button">View</a></td>
+                
+            <td> <a class="btn btn-outline-primary" asp-route-id="@item.PaymentId" asp-action="Index" asp-controller="Payment">Payment</a></td>
+                                          
+                <td> <a class="btn btn-outline-danger" asp-route-id="@item.ShipmentId" asp-action="Index" asp-controller="Shipment">Shipment</a></td>       
+            *@ </tr>
+        }
+     
+    </tbody>
+</table>
+

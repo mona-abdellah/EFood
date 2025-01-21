@@ -7,6 +7,7 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Stock</th>
+            <th scope="col">Category</th>
             <th scope="col">Image</th>
             <th scope="col">Action</th>
         </tr>
@@ -18,6 +19,7 @@
                 <td>@pro.name</td>
                 <td>@pro.price</td>
                 <td>@pro.stock</td>
+                <td>@pro.categoryName</td>
                 <td><img src="@pro.Image" style="width:50px; height:50px;" /></td>
                 <td>
                     <a class="btn btn-danger" asp-action="Update" asp-route-Id="@pro.Id">Update</a>

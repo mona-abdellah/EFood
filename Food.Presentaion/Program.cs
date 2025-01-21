@@ -30,11 +30,12 @@ namespace Food.Presentaion
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<FoodContext>();
+            builder.Services.AddIdentity<Customer,IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<FoodContext>()
+                .AddDefaultTokenProviders();
             builder.Services.AddControllersWithViews();
-            
-			var app = builder.Build();
+            builder.Services.AddRazorPages();
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -48,7 +49,7 @@ namespace Food.Presentaion
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

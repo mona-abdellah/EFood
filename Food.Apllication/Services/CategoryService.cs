@@ -154,10 +154,10 @@ namespace Food.Apllication.Services
             return categories;
 		}
 
-		public async Task<GetAllCategoryDTO> GetOneAsync(Guid Id)
+		public async Task<CreateORupdateCategoryDTO> GetOneAsync(Guid Id)
         {
             var category = await categoryRepository.GetOneAsync(Id);
-            return mapper.Map<GetAllCategoryDTO>(category);
+            return mapper.Map<CreateORupdateCategoryDTO>(category);
         }
 
         public async Task<ResultView<CreateORupdateCategoryDTO>> UpdateAsync(CreateORupdateCategoryDTO entity)

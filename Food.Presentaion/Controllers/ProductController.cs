@@ -24,7 +24,7 @@ namespace Food.Presentaion.Controllers
         }
 
         public async Task<IActionResult> Create()
-        {
+        { 
             CreateORUpdateProductDTO productDTO = new();
             ViewBag.Categories = await categoryService.GetAllCategoryAsync();
             return View(productDTO);
@@ -44,10 +44,10 @@ namespace Food.Presentaion.Controllers
         }
         public async Task<IActionResult> Update(Guid Id)
         {
-            ViewBag.categories = await categoryService.GetAllCategoryAsync();
+            ViewBag.Categories = await categoryService.GetAllCategoryAsync();
             var product = await productService.GetOneAsync(Id);
             return View(product);
-        }
+        }  
         [HttpPost]
         public async Task<IActionResult> Update(CreateORUpdateProductDTO productDTO)
         {

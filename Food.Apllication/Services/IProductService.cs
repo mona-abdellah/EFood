@@ -16,7 +16,8 @@ namespace Food.Apllication.Services
 
         public Task<ResultView<CreateORUpdateProductDTO>> UpdateAsync(CreateORUpdateProductDTO productDTO);
         public Task<EntityPagenated<GetAllProductDTO>> GetAllAsync(int PageNumber, int Count);
-        public Task<GetAllProductDTO> GetOneAsync(Guid Id);
+        public Task<CreateORUpdateProductDTO> GetOneAsync(Guid Id);
         public Task<ResultView<GetAllProductDTO>> DeleteAsync(Guid Id);
+        public Task<EntityPagenated<GetAllProductDTO>> GetAllByCatId(Guid CatId, int PageNumber, int Count);
     }
 }

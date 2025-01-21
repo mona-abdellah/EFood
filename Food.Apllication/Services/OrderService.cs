@@ -102,14 +102,31 @@ namespace Food.Apllication.Services
             }
         }
 
+        public async Task<List<GetAllOrderDTO>> GetAll()
+        {
+            var data = (await orderRepository.GetAllAsync()).ToList();
+            var tempData = mapper.Map <List<GetAllOrderDTO>> (data);
+            return tempData;
+        }
+
         public async Task<EntityPagenated<GetAllOrderDTO>> GetAllAsync(int PageNumber, int Count)
         {
-            var data = (await orderRepository.GetAllAsync()).Skip(Count * (PageNumber - 1)).Take(Count);
+            var data = (await orderRepository.GetAllAsync()).Select(o=>new GetAllOrderDTO
+            {
+                Id=o.Id,
+                OrderDate=o.OrderDate,
+                TotalPrice=o.TotalPrice,
+                Status=o.Status,
+                CustomerEmail=o.Customer.Email,
+                CustomerName=o.Customer.FName,
+                customerId=o.customerId,
+                PaymentId=o.PaymentId,
+                shipmentId=o.shipmentId
+            }).Skip(Count * (PageNumber - 1)).Take(Count).ToList();
             var c = (await orderRepository.GetAllAsync()).Count();
-            var returnData = mapper.Map<List<GetAllOrderDTO>>(data);
             EntityPagenated<GetAllOrderDTO> entityPagenated = new()
             {
-                Data = returnData,
+                Data = data,
                 Count = c,
                 CurrentPage = PageNumber,
                 PageSize = Count

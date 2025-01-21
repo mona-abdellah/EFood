@@ -9,9 +9,8 @@ namespace Food.DTO.Customer
     public class CreateORUpdateCustomerDTO
     {
         public Guid Id { get; set; }
-        public string FName { get; set; }
-        public string Lname { get; set; }
-
+        public string? Username { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

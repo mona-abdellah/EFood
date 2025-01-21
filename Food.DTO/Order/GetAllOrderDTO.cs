@@ -13,6 +13,8 @@ namespace Food.DTO.Order
         public int TotalPrice { get; set; }
         public int Status { get; set; } = 0;
         public Guid? customerId { get; set; }
+        public string? CustomerName { get; set; }
+        public string? CustomerEmail { get; set; }
         public Guid? PaymentId { get; set; }
         public Guid? shipmentId { get; set; }
         public ICollection<CreateORUpdateOrderItemDTO> OrderItems { get; set; }

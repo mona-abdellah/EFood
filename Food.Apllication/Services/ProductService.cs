@@ -123,12 +123,19 @@ namespace Food.Apllication.Services
 
         public async Task<EntityPagenated<GetAllProductDTO>> GetAllAsync(int PageNumber, int Count)
         {
-            var data = (await productRepository.GetAllAsync()).Skip(Count * (PageNumber - 1)).Take(Count).ToList();
             var c = (await productRepository.GetAllAsync()).Count();
-            var returnData = mapper.Map<List<GetAllProductDTO>>(data);
+            var data =(await productRepository.GetAllAsync()).Select(p=>new GetAllProductDTO
+            {
+                Id=p.Id,
+                name=p.name,
+                stock=p.stock,
+                price=p.price,
+                categoryName=p.Category.Name,
+                Image=p.Image
+            }).Skip(Count * (PageNumber - 1)).Take(Count).ToList();
             EntityPagenated<GetAllProductDTO> entityPagenated = new()
             {
-                Data = returnData,
+                Data = data,
                 Count = c,
                 PageSize = Count,
                 CurrentPage = PageNumber
@@ -137,10 +144,32 @@ namespace Food.Apllication.Services
                 
         }
 
-		public async Task<GetAllProductDTO> GetOneAsync(Guid Id)
+        public async Task<EntityPagenated<GetAllProductDTO>> GetAllByCatId(Guid CatId, int PageNumber, int Count)
+        {
+            var c = (await productRepository.GetAllAsync()).Count();
+            var data = (await productRepository.GetAllAsync()).Where(p=>p.CategoryId==CatId).Select(p => new GetAllProductDTO
+            {
+                Id = p.Id,
+                name = p.name,
+                stock = p.stock,
+                price = p.price,
+                categoryName = p.Category.Name,
+                Image = p.Image
+            }).Skip(Count * (PageNumber - 1)).Take(Count).ToList();
+            EntityPagenated<GetAllProductDTO> entityPagenated = new()
+            {
+                Data = data,
+                Count = c,
+                PageSize = Count,
+                CurrentPage = PageNumber
+            };
+            return entityPagenated;
+        }
+
+        public async Task<CreateORUpdateProductDTO> GetOneAsync(Guid Id)
 		{
             var product = await productRepository.GetOneAsync(Id);
-            return mapper.Map<GetAllProductDTO>(product);
+            return mapper.Map<CreateORUpdateProductDTO>(product);
 		}
 
 		public async Task<ResultView<CreateORUpdateProductDTO>> UpdateAsync(CreateORUpdateProductDTO entity)
@@ -159,34 +188,32 @@ namespace Food.Apllication.Services
                     };
                     return result;
                 }
-                else
+               	if (entity.ImageData != null)
+				{
+					var uniq = Guid.NewGuid().ToString() + Path.GetExtension(entity.ImageData.FileName);
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", uniq);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await (entity.ImageData).CopyToAsync(stream);
+					}
+					entity.Image = $"/images/products/{uniq}";
+				}
+				else
+				{
+					entity.Image = oldOne.Image;
+				}
+				mapper.Map(entity, oldOne);
+				var updated=await productRepository.UpdateAsync(oldOne);
+                await productRepository.SaveChangesAsync();
+                var pro = mapper.Map<CreateORUpdateProductDTO>(updated);
+                result = new()
                 {
-					if (entity.ImageData != null)
-					{
-						var uniq = Guid.NewGuid().ToString() + Path.GetExtension(entity.ImageData.FileName);
-						var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", uniq);
-						using (var stream = new FileStream(filePath, FileMode.Create))
-						{
-							await (entity.ImageData).CopyToAsync(stream);
-						}
-						entity.Image = $"/images/products/{uniq}";
-					}
-					else
-					{
-						entity.Image = oldOne.Image;
-					}
-					mapper.Map(entity, oldOne);
-					var updated=await productRepository.UpdateAsync(oldOne);
-                    await productRepository.SaveChangesAsync();
-                    var pro = mapper.Map<CreateORUpdateProductDTO>(updated);
-                    result = new()
-                    {
-                        Entity = pro,
-                        ISSuccess = true,
-                        Message = "Updated Successfully"
-                    };
-                    return result;
-                }
+                    Entity = pro,
+                    ISSuccess = true,
+                    Message = "Updated Successfully"
+                };
+                return result;
+               
             }
             catch(Exception ex)
             {

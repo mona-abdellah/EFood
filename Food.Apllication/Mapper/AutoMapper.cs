@@ -29,7 +29,8 @@ namespace Food.Apllication.Mapper
             CreateMap<GetAllOrderDTO, Order>().ReverseMap();
             CreateMap<CreateORUpdateOrderItemDTO, OrderItem>().ReverseMap();
             CreateMap<GetAllOrderItemDTO, OrderItem>().ReverseMap();
-
+            CreateMap<AdminDTO, Customer>().ReverseMap();
+            CreateMap<AdminLoginDTO, Customer>().ReverseMap();
         }
     }
 }

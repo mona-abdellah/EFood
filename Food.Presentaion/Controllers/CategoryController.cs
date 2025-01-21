@@ -1,9 +1,11 @@
 ﻿using Food.Apllication.Services;
 using Food.DTO.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Food.Presentaion.Controllers
 {
+    [Authorize(Roles="admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -22,6 +24,7 @@ namespace Food.Presentaion.Controllers
         }
         public async Task<IActionResult> Create()
         {
+
             CreateORupdateCategoryDTO categoryDTO = new();
             return View(categoryDTO);
         }
