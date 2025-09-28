@@ -27,7 +27,15 @@ namespace Food.API
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<FoodContext>(options =>
                 options.UseSqlServer(connectionString));
-           
+            builder.Services.AddCors(op =>
+            {
+                op.AddPolicy("Default", policy =>
+                {
+                    policy.AllowAnyHeader()
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod();
+                });
+            });
             builder.Services.AddIdentity<Customer, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<FoodContext>()
                 .AddDefaultTokenProviders();
@@ -35,7 +43,7 @@ namespace Food.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+           
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -46,9 +54,10 @@ namespace Food.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors();
 
             app.MapControllers();
 
