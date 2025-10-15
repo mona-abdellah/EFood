@@ -16,5 +16,6 @@ namespace Food.DTO.Product
         public int stock { get; set; }
         public string Image { get; set; }
         public string? categoryName { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

@@ -10,6 +10,10 @@ namespace Food.DTO.Product
 {
     public class CreateORUpdateProductDTO
     {
+        public CreateORUpdateProductDTO()
+        {
+            IsDeleted = false;
+        }
         public Guid Id { get; set; }
         [MinLength(3,ErrorMessage ="Minimum Length is 3")]
         public string name { get; set; }      
@@ -18,5 +22,6 @@ namespace Food.DTO.Product
 		public Guid? CategoryId { get; set; }
 		public string? Image { get; set; }
         public IFormFile? ImageData { get; set; }
+        public bool? IsDeleted { get; set; }
 	}
 }

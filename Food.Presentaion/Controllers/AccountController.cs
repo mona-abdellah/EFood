@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Food.Presentaion.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AccountController : Controller
     {
         private readonly UserManager<Customer> userManager;
@@ -23,14 +24,14 @@ namespace Food.Presentaion.Controllers
             mapper = _mapper;
             roleManager = _roleManager;
         }
-        [Authorize(Roles ="admin")]
+        //[Authorize(Roles ="admin")]
         [HttpGet]
         public IActionResult AddAdmin()
         {
             return View();
         }
         [HttpPost]
-        [Authorize(Roles ="admin")]
+        
         public async Task<IActionResult> AddAdmin(AdminDTO adminDTO)
         {
             if (ModelState.IsValid)
@@ -57,11 +58,13 @@ namespace Food.Presentaion.Controllers
             }
             return View(adminDTO);
         }
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(AdminLoginDTO adminLoginDTO)
         {
             try
@@ -92,6 +95,25 @@ namespace Food.Presentaion.Controllers
                 return View(adminLoginDTO);
             }       
         }
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var admin = await userManager.FindByNameAsync(User.Identity.Name);
+            if (admin != null)
+            {
+                AdminDTO adminDTO = new()
+                {
+                    
+                     FName=admin.FName,
+                     Lname=admin.Lname,
+                     Email=admin.Email,
+                     Username=admin.UserName
+                };
+                return View(adminDTO);
+            }
+            return RedirectToAction("GetAllCategory", "Category");
+        }
+        
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();

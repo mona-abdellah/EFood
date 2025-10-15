@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Food.DTO", "..\Food.DTO\Foo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Food.Infrastructure", "..\Food.Infrastructure\Food.Infrastructure.csproj", "{C137B081-2C9E-4EAA-8798-0FD1E093E033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Food.API", "..\Food.API\Food.API.csproj", "{F3F20EA0-AC54-4C31-97C2-BEB7058960A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Food.API", "..\Food.API\Food.API.csproj", "{F3F20EA0-AC54-4C31-97C2-BEB7058960A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

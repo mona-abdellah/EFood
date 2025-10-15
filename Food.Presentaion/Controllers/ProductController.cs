@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Food.Apllication.Services;
 using Food.DTO.Product;
+using Microsoft.AspNetCore.Authorization;
 namespace Food.Presentaion.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly IProductService productService;
@@ -63,9 +65,7 @@ namespace Food.Presentaion.Controllers
 		}
         public async Task<IActionResult> Delete(Guid Id)
         {
-            var result = await productService.DeleteAsync(Id);
-            
-            TempData["Message"] = result.Message;
+            var result = await productService.DeleteAsync(Id);                      
             return RedirectToAction("GetAllProduct");    
            
         }

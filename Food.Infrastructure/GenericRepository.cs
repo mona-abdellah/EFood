@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +35,10 @@ namespace Food.Infrastructure
         {
             return Task.FromResult(dbset.Select(p => p));
         }
-
+        public async Task<IQueryable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return dbset.Where(expression);
+        }
         public ValueTask<TEntity> GetOneAsync(TId id)
         {
             return dbset.FindAsync(id);

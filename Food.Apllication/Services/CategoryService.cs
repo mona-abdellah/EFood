@@ -131,7 +131,7 @@ namespace Food.Apllication.Services
 
         public async Task<EntityPagenated<GetAllCategoryDTO>> GetAllAsync(int PageNumber, int Count)
         {
-            var allCate=(await  categoryRepository.GetAllAsync()).Skip(Count*(PageNumber-1)).Take(Count).ToList();
+            var allCate=(await  categoryRepository.GetAllAsync()).OrderBy(c=>c.Create).Skip(Count*(PageNumber-1)).Take(Count).ToList();
             var c = (await categoryRepository.GetAllAsync()).Count();
             var returnedCate = mapper.Map<List<GetAllCategoryDTO>>(allCate);
             EntityPagenated<GetAllCategoryDTO> entityPagenated = new()

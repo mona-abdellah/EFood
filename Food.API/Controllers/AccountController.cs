@@ -48,7 +48,8 @@ namespace Food.API.Controllers
                 List<Claim> claims = new List<Claim>()
                 {
                        new Claim(ClaimTypes.Name,customerDTO.Username),
-                       new Claim(ClaimTypes.Email, customerDTO.Email)
+                       new Claim(ClaimTypes.Email, customerDTO.Email),
+                       new Claim(ClaimTypes.Role,"user")
                 };
                 var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:Key"]));
                 var token = new JwtSecurityToken(

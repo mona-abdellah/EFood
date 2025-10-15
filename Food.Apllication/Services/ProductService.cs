@@ -10,6 +10,7 @@ using AutoMapper;
 using Food.Models;
 using Food.Apllication.Mapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
 namespace Food.Apllication.Services
 {
     public class ProductService : IProductService
@@ -28,103 +29,89 @@ namespace Food.Apllication.Services
             ResultView<CreateORUpdateProductDTO> result = new ResultView<CreateORUpdateProductDTO>();
             try
             {
-                bool product = (await productRepository.GetAllAsync()).Any(p=>p.name==entity.name);
-                if (product)
-                {
-                    result = new()
-                    {
-                        Entity =null,
-                        ISSuccess=false,
-                        Message="This Product Exists"
-                    };
-                    return result;
-                }
-                else
-                {
-					var uniq = Guid.NewGuid().ToString() + Path.GetExtension(entity.ImageData.FileName);
-					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", uniq);
-					using (var stream = new FileStream(filePath, FileMode.Create))
-					{
-						await (entity.ImageData).CopyToAsync(stream);
-					}
-					entity.Image = $"/images/products/{uniq}";
+               var existing = (await productRepository.GetAllAsync(p => p.name == entity.name))
+                                .FirstOrDefault();
 
-					var pro = mapper.Map<Product>(entity);
-                    var success = await productRepository.CreateAsync(pro);
-                    await productRepository.SaveChangesAsync();
-                    var returnproduct = mapper.Map<CreateORUpdateProductDTO>(success);
-                    result = new()
+                if (existing != null)
+                {
+                    if (existing.IsDeleted == true)
                     {
-                        Entity=returnproduct,
-                        ISSuccess=true,
-                        Message="Created Successfully"
-                    };
-                    return result;
+                        existing.IsDeleted = false;
+                        existing.Updated = DateTime.Now;
+
+                        await productRepository.UpdateAsync(existing); 
+                        await productRepository.SaveChangesAsync();
+
+                        var returnproduct = mapper.Map<CreateORUpdateProductDTO>(existing);
+                        result = new()
+                        {
+                            Entity = returnproduct,
+                            ISSuccess = true,
+                            Message = "Product Restored Successfully"
+                        };
+                        return result;
+                    }
+                    else
+                    {
+                        result = new()
+                        {
+                            Entity = null,
+                            ISSuccess = false,
+                            Message = "This Product Exists"
+                        };
+                        return result;
+                    }
                 }
+                var uniq = Guid.NewGuid().ToString() + Path.GetExtension(entity.ImageData.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", uniq);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await (entity.ImageData).CopyToAsync(stream);
+                }
+                entity.Image = $"/images/products/{uniq}";
+
+                var pro = mapper.Map<Product>(entity);
+                pro.Create = DateTime.Now;
+                pro.IsDeleted = false;
+
+                var success = await productRepository.CreateAsync(pro);
+                await productRepository.SaveChangesAsync();
+
+                var returnproductNew = mapper.Map<CreateORUpdateProductDTO>(success);
+                result = new()
+                {
+                    Entity = returnproductNew,
+                    ISSuccess = true,
+                    Message = "Created Successfully"
+                };
+                return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
                 result = new()
                 {
                     Entity = null,
                     ISSuccess = false,
-                    Message = "Error " + ex
+                    Message = "Error " + ex.Message
                 };
                 return result;
             }
         }
 
-        public async Task<ResultView<GetAllProductDTO>> DeleteAsync(Guid Id)
-        {
-            ResultView<GetAllProductDTO> result = new ResultView<GetAllProductDTO>();
-            try
-            {
-                var pro = (await productRepository.GetOneAsync(Id));
-                var allorder = (await orderItemRepository.GetAllAsync());
-                var order=await allorder.AnyAsync(o => o.ProductId == Id);
-                if (order)
-                {
-                    result = new()
-                    {
-                        Entity=null,
-                        ISSuccess=false,
-                        Message="Can't Delete This Product Beacause There is related Order"
-                    };
-                    return result;
-                }
-                else
-                {
-                    var product = mapper.Map<GetAllProductDTO>(pro);
-                    await productRepository.DeleteAsync(pro);
-                    await productRepository.SaveChangesAsync();
-                    
-                    result = new()
-                    {
-                        Entity = product,
-                        ISSuccess = true,
-                        Message = "Deleted Successfully"
-                    };
-                    return result;
-                }
-                
-            }
-            catch(Exception ex)
-            {
-                result = new()
-                {
-                    Entity = null,
-                    ISSuccess = false,
-                    Message = "Error " + ex
-                };
-                return result;
-            }
+        public async Task<bool> DeleteAsync(Guid Id)
+        {   
+            var entity=await productRepository.GetOneAsync(Id);
+            if (entity == null)
+                return false;
+            entity.IsDeleted = true;
+            await productRepository.UpdateAsync(entity);
+            return await productRepository.SaveChangesAsync()>0;         
         }
 
         public async Task<EntityPagenated<GetAllProductDTO>> GetAllAsync(int PageNumber, int Count)
         {
             var c = (await productRepository.GetAllAsync()).Count();
-            var data =(await productRepository.GetAllAsync()).Select(p=>new GetAllProductDTO
+            var data =(await productRepository.GetAllAsync(p=> p.IsDeleted==false)).OrderBy(p=>p.Create).Select(p=>new GetAllProductDTO
             {
                 Id=p.Id,
                 name=p.name,
@@ -147,7 +134,7 @@ namespace Food.Apllication.Services
         public async Task<EntityPagenated<GetAllProductDTO>> GetAllByCatId(Guid CatId, int PageNumber, int Count)
         {
             var c = (await productRepository.GetAllAsync()).Count();
-            var data = (await productRepository.GetAllAsync()).Where(p=>p.CategoryId==CatId).Select(p => new GetAllProductDTO
+            var data = (await productRepository.GetAllAsync(p => p.IsDeleted == false)).Where(p=>p.CategoryId==CatId).Select(p => new GetAllProductDTO
             {
                 Id = p.Id,
                 name = p.name,
@@ -174,21 +161,22 @@ namespace Food.Apllication.Services
 
 		public async Task<ResultView<CreateORUpdateProductDTO>> UpdateAsync(CreateORUpdateProductDTO entity)
         {
-            ResultView<CreateORUpdateProductDTO> result = new();
+            ResultView<CreateORUpdateProductDTO> result = new ResultView<CreateORUpdateProductDTO>();
             try
             {
-                var oldOne = (await productRepository.GetAllAsync()).FirstOrDefault(p => p.Id == entity.Id);
-                if (oldOne == null)
+                var existing = await productRepository.GetOneAsync(entity.Id);
+
+                if (existing == null || existing.IsDeleted == true)
                 {
                     result = new()
                     {
-                        Entity=null,
-                        ISSuccess=false,
-                        Message="There Is No Products"
+                        Entity = null,
+                        ISSuccess = false,
+                        Message = "Product Not Found or Deleted"
                     };
                     return result;
                 }
-               	if (entity.ImageData != null)
+                if (entity.ImageData != null)
 				{
 					var uniq = Guid.NewGuid().ToString() + Path.GetExtension(entity.ImageData.FileName);
 					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", uniq);
@@ -200,10 +188,10 @@ namespace Food.Apllication.Services
 				}
 				else
 				{
-					entity.Image = oldOne.Image;
+					entity.Image = existing.Image;
 				}
-				mapper.Map(entity, oldOne);
-				var updated=await productRepository.UpdateAsync(oldOne);
+				mapper.Map(entity, existing);
+				var updated=await productRepository.UpdateAsync(existing);
                 await productRepository.SaveChangesAsync();
                 var pro = mapper.Map<CreateORUpdateProductDTO>(updated);
                 result = new()

@@ -10,6 +10,7 @@ namespace Food.DTO.Customer
 {
     public class AdminDTO
     {
+        public Guid Id { get; set; }
         public string Username { get; set; }
         [MinLength(3,ErrorMessage ="Minimum Length is 3")]
         public string FName { get; set; }

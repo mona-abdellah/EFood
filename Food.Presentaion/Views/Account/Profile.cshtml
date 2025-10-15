@@ -1,0 +1,33 @@
+﻿﻿@using Food.DTO.Customer
+@model AdminDTO
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-success text-white text-center">
+            <h3 class="mb-0">👤 الحساب الشخصي</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 fw-bold">اسم المستخدم</dt>
+                <dd class="col-sm-8">@Model.Username</dd>
+
+                <dt class="col-sm-4 fw-bold">الاسم الأول</dt>
+                <dd class="col-sm-8">@Model.FName</dd>
+
+                <dt class="col-sm-4 fw-bold">الاسم الأخير</dt>
+                <dd class="col-sm-8">@Model.Lname</dd>
+
+                <dt class="col-sm-4 fw-bold">البريد الإلكتروني</dt>
+                <dd class="col-sm-8">@Model.Email</dd>
+            </dl>
+        </div>
+      @*   <div class="card-footer text-center">
+            <a asp-action="Update" asp-controller="Account" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="fa fa-edit"></i> تعديل البيانات
+            </a>
+        </div> *@
+    </div>
+</div>

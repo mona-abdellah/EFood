@@ -111,7 +111,7 @@ namespace Food.Apllication.Services
 
         public async Task<EntityPagenated<GetAllOrderDTO>> GetAllAsync(int PageNumber, int Count)
         {
-            var data = (await orderRepository.GetAllAsync()).Select(o=>new GetAllOrderDTO
+            var data = (await orderRepository.GetAllAsync()).OrderBy(o=>o.Create).Select(o=>new GetAllOrderDTO
             {
                 Id=o.Id,
                 OrderDate=o.OrderDate,

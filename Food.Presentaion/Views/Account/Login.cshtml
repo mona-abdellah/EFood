@@ -1,7 +1,80 @@
 ﻿@using Food.DTO.Customer
 @model AdminLoginDTO
 
+@{
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resturant - Admin Login</title>
 
+    <!-- Bootstrap -->
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #022425, #037b74);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px; /* ✅ padding للموبايل */
+        }
+
+        .login-box {
+            max-width: 420px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 6px 20px rgba(0,0,0,.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .login-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #022425;
+            font-family: Nunito, sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #037b74;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #025b56;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(3, 123, 116, 0.25);
+            border-color: #037b74;
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ✅ تحسينات للشاشات الصغيرة */
+        
+         @@media (max-width: 576px) {
+            .login-title {
+                font-size: 22px;
+            }
+            .btn-primary {
+                font-size: 16px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
 <form asp-action="Login" method="post">
     <div class="form-group">
         <label for="Username">Username</label>
