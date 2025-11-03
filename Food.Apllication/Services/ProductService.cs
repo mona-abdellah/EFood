@@ -133,7 +133,7 @@ namespace Food.Apllication.Services
 
         public async Task<EntityPagenated<GetAllProductDTO>> GetAllByCatId(Guid CatId, int PageNumber, int Count)
         {
-            var c = (await productRepository.GetAllAsync()).Count();
+            var c = (await productRepository.GetAllAsync(p=>p.CategoryId==CatId)).Count();
             var data = (await productRepository.GetAllAsync(p => p.IsDeleted == false)).Where(p=>p.CategoryId==CatId).Select(p => new GetAllProductDTO
             {
                 Id = p.Id,

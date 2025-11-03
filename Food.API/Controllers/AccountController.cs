@@ -1,6 +1,7 @@
 ﻿using Food.DTO.Customer;
 using Food.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,7 +28,7 @@ namespace Food.API.Controllers
             configuration = _configuration;
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(CreateORUpdateCustomerDTO customerDTO)
+        public async Task<IActionResult> Login(CustomerLoginDTO customerDTO)
         {
             var user = await userManager.FindByEmailAsync(customerDTO.Email);
 
@@ -38,12 +39,12 @@ namespace Food.API.Controllers
 
             if (user == null)
             {
-                return Unauthorized("Wrong Email or Username");
+                return Unauthorized(new { Message = "Wrong Email or Username" });
             }
             var check = await userManager.CheckPasswordAsync(user, customerDTO.Password);
                 if (!check)
                 {
-                    return Unauthorized("Wrong Password");
+                    return Unauthorized(new { Message = "Wrong Password" });
                 }
                 List<Claim> claims = new List<Claim>()
                 {
@@ -60,7 +61,7 @@ namespace Food.API.Controllers
                     signingCredentials: new SigningCredentials(Key, SecurityAlgorithms.HmacSha256)
                  );
                 var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
-                return Ok(tokenStr);
+                return Ok(new { Token = tokenStr });
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register(CreateORUpdateCustomerDTO customerDTO)
@@ -68,7 +69,7 @@ namespace Food.API.Controllers
             var email = await userManager.FindByEmailAsync(customerDTO.Email);
             if (email != null)
             {
-                return StatusCode(500, "This Email Already Exists");
+                return StatusCode(500, new { Message = "This Email Already Exists" });
             }
             var user = new Customer { 
                 UserName = customerDTO.Username,
@@ -79,7 +80,7 @@ namespace Food.API.Controllers
             var res = await userManager.CreateAsync(user,customerDTO.Password);
             if (res.Succeeded)
             {
-                return Ok("Created Successfully");
+                return Ok( new { Message = "Created Successfully" });
             }
             return StatusCode(500, res.Errors);
         }
